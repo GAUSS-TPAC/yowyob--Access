@@ -2,6 +2,15 @@ CREATE DATABASE ACCESS
 
 CREATE EXTENSION IF NOT EXISTS "pgcrypto";
 
+
+CREATE TABLE TENANTS(
+    ID UUID primary key not null DEFAULT gen_ramdom_uuid(),
+    tenant_name varchar(50) UNIQUE,
+    status varchar(10),
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+    update_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
 CREATE TABLE USERS (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   user_name VARCHAR(50),
@@ -43,13 +52,6 @@ CREATE TABLE SUPER_ADMIN(
     created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
     update_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
 
-);
-
-CREATE TABLE TENANTS(
-    ID UUID primary key not null DEFAULT gen_ramdom_uuid(),
-    tenant_name varchar(50) UNIQUE,
-    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
-    update_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
 
 
