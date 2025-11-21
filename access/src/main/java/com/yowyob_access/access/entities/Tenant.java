@@ -2,69 +2,66 @@ package com.yowyob_access.access.entities;
 
 import com.yowyob_access.access.enums.TenantStatus;
 import jakarta.persistence.*;
+import org.hibernate.annotations.GenericGenerator;
 
-import java.util.Date;
+import java.time.Instant;
 
 @Entity
-@Table(name= "TENANT")
+@Table(name = "TENANT")
 public class Tenant {
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private int id;
-    @Column(unique = true)
-    private String tenant_name;
-    private Date create_at;
-    private Date update_at;
+    @GeneratedValue(generator = "UUID")
+    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
+    @Column(name = "id", updatable = false, nullable = false, length = 36)
+    private String id;
+
+    @Column(name = "tenant_name", unique = true, nullable = false)
+    private String tenantName;
+
+    @Column(name = "created_at", nullable = false)
+    private Instant createdAt;
+
+    @Column(name = "updated_at")
+    private Instant updatedAt;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status", nullable = false)
     private TenantStatus status;
 
-    public Tenant() {
-    }
+    @Column(name = "deleted", nullable = false)
+    private boolean deleted = false;
 
-    public Tenant(int id, String tenant_name, Date create_at, Date update_at, TenantStatus status) {
-        this.id = id;
-        this.tenant_name = tenant_name;
-        this.create_at = create_at;
-        this.update_at = update_at;
+    @Column(name = "deleted_at")
+    private Instant deletedAt;
+
+    @Column(name = "deleted_by", length = 100)
+    private String deletedBy;
+
+
+    public Tenant() {}
+
+    public Tenant(String tenantName, TenantStatus status) {
+        this.tenantName = tenantName;
         this.status = status;
     }
 
-    public int getId() {
-        return id;
+    @PrePersist
+    protected void onCreate() {
+        this.createdAt = Instant.now();
+        this.updatedAt = this.createdAt;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    @PreUpdate
+    protected void onUpdate() {
+        this.updatedAt = Instant.now();
     }
 
-    public String getTenant_name() {
-        return tenant_name;
-    }
-
-    public void setTenant_name(String tenant_name) {
-        this.tenant_name = tenant_name;
-    }
-
-    public Date getCreate_at() {
-        return create_at;
-    }
-
-    public void setCreate_at(Date create_at) {
-        this.create_at = create_at;
-    }
-
-    public Date getUpdate_at() {
-        return update_at;
-    }
-
-    public void setUpdate_at(Date update_at) {
-        this.update_at = update_at;
-    }
-
-    public TenantStatus getStatus() {
-        return status;
-    }
-
-    public void setStatus(TenantStatus status) {
-        this.status = status;
-    }
+    // getters & setters
+    public String getId() { return id; }
+    public String getTenantName() { return tenantName; }
+    public void setTenantName(String tenantName) { this.tenantName = tenantName; }
+    public Instant getCreatedAt() { return createdAt; }
+    public Instant getUpdatedAt() { return updatedAt; }
+    public TenantStatus getStatus() { return status; }
+    public void setStatus(TenantStatus status) { this.status = status; }
 }
