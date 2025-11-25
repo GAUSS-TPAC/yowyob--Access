@@ -18,8 +18,8 @@ CREATE TABLE USERS (
   password VARCHAR(255) NOT NULL, -- stocker hash (bcrypt/argon2)
   status VARCHAR(20) NOT NULL DEFAULT 'ACTIVE',
   tenant_id UUID NOT NULL,
-  created_at TIMESTAMPTZ DEFAULT NOW(),
-  updated_at TIMESTAMPTZ DEFAULT NOW()
+  created_at TIMESTAMP DEFAULT NOW(),
+  updated_at TIMESTAMP DEFAULT NOW()
 );
 
 -- index sur tenant_id pour recherches filtrées

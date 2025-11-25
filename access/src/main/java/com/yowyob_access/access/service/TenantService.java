@@ -3,6 +3,7 @@ package com.yowyob_access.access.service;
 import com.yowyob_access.access.entities.AuditLog;
 import com.yowyob_access.access.entities.Tenant;
 import com.yowyob_access.access.enums.TenantStatus;
+import com.yowyob_access.access.repository.AuditLogRepository;
 import com.yowyob_access.access.repository.TenantRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -60,8 +61,7 @@ public class TenantService {
         tenant.setStatus(TenantStatus.DELETED);
         tenantRepository.save(tenant);
 
-        auditLogRepository.save(new AuditLog("Tenant", id, "DELETE_SOFT", "system",
-                "soft-deleted tenant"));
+        auditLogRepository.save(new AuditLog("Tenant", id, "DELETE_SOFT", "system", "soft-deleted tenant"));
     }
 
     @Transactional
@@ -69,8 +69,7 @@ public class TenantService {
         Tenant tenant = getById(id);
         tenant.setStatus(status);
         Tenant saved = tenantRepository.save(tenant);
-        auditLogRepository.save(new AuditLog("Tenant", id, "STATUS_CHANGE", "system",
-                "status -> " + status));
+        auditLogRepository.save(new AuditLog("Tenant", id, "STATUS_CHANGE", "system", "status -> " + status));
         return saved;
     }
 }
