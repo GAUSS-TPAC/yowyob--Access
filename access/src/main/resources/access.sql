@@ -4,7 +4,7 @@ CREATE EXTENSION IF NOT EXISTS "pgcrypto";
 
 
 CREATE TABLE TENANTS(
-    ID UUID primary key not null DEFAULT gen_ramdom_uuid(),
+    ID UUID primary key not null DEFAULT gen_random_uuid(),
     tenant_name varchar(50) UNIQUE,
     status varchar(10),
     created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
@@ -29,7 +29,7 @@ CREATE INDEX idx_users_status ON users (status);
 
 CREATE TABLE ADMIN_TENANT(
 
-    ID UUID primary key not null DEFAULT gen_ramdom_uuid(),
+    ID UUID primary key not null DEFAULT gen_random_uuid(),
     user_name varchar(20),
     email varchar(20) UNIQUE,
     password varchar(40), 
@@ -43,7 +43,7 @@ CREATE TABLE ADMIN_TENANT(
 );
 
 CREATE TABLE SUPER_ADMIN(
-    ID UUID primary key not null DEFAULT gen_ramdom_uuid(),
+    ID UUID primary key not null DEFAULT gen_random_uuid(),
     user_name varchar(20),
     email varchar(20) UNIQUE,
     password varchar(40), 
@@ -56,7 +56,7 @@ CREATE TABLE SUPER_ADMIN(
 
 
 CREATE TABLE PERMISSIONS(
-    ID UUID primary key not null DEFAULT gen_ramdom_uuid(),
+    ID UUID PRIMARY KEY not null DEFAULT gen_random_uuid(),
     permission_name varchar(50) UNIQUE,
     action varchar(50),
     resource varchar(50),
@@ -68,15 +68,8 @@ CREATE TABLE ROLES (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   role_name VARCHAR(100) UNIQUE NOT NULL,
   description TEXT,
-  created_at TIMESTAMPTZ DEFAULT NOW(),
-  updated_at TIMESTAMPTZ DEFAULT NOW()
-);
-
-CREATE TABLE PERMISSIONS (
-  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-  permission_name VARCHAR(100) UNIQUE NOT NULL,
-  action VARCHAR(50),
-  resource VARCHAR(50)
+  created_at TIMESTAMP DEFAULT NOW(),
+  updated_at TIMESTAMP DEFAULT NOW()
 );
 
 CREATE TABLE ROLES_PERMISSIONS (
@@ -86,7 +79,7 @@ CREATE TABLE ROLES_PERMISSIONS (
 );
 
 CREATE TABLE AUDIT_LOGS(
-    ID UUID primary key not null DEFAULT gen_ramdom_uuid(),
+    ID UUID primary key not null DEFAULT gen_random_uuid(),
     user_id UUID not null,
     action varchar(100),
     resource varchar(100),
@@ -97,21 +90,29 @@ CREATE TABLE AUDIT_LOGS(
     CONSTRAINT fk_audit_user FOREIGN KEY (user_id) REFERENCES USER(ID) ON DELETE CASCADE
 );
 
-CREATE TABLE audit_log (
-  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-  user_id UUID NOT NULL,
-  action VARCHAR(100),
-  resource VARCHAR(100),
-  ts TIMESTAMPTZ DEFAULT NOW(),
-  details TEXT,
-  ip_address VARCHAR(45)
-);
+  CREATE TABLE AUDIT_LOGS(
+      ID UUID primary key not null DEFAULT gen_random_uuid(),
+      actor_id UUID NOT NULL,
+      action VARCHAR(100),
+      resource VARCHAR(100),
+      ts TIMESTAMP DEFAULT NOW(),
+      entity_type VARCHAR(50),
+      entity_id UUID,
+      details TEXT,
+      ip_address VARCHAR(45)
+  );
 
 CREATE INDEX idx_auditlog_user_id ON audit_log (user_id);
 CREATE INDEX idx_auditlog_ts ON audit_log (ts);
+
+CREATE INDEX idx_auditlog_entity_type ON audit_log (entity_type);
+CREATE INDEX idx_auditlog_action ON audit_log (action);
 
 -- Pour gros volume : utiliser partitionnement par range sur "ts".
 -- Exemple (Postgres >=10) : créer table parent partitionnée et partitions mensuelles.
 
 -- Index GIN sur array pour opérateurs @> etc.
 CREATE INDEX idx_role_permissions_array ON role USING GIN (list_permissions);
+CREATE INDEX idx_tenant_status ON tenants (status);
+CREATE INDEX idx_users_email ON users (email);
+
