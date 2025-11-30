@@ -22,6 +22,9 @@ public class AuditLog {
     @Column(name = "entity_type", nullable = false)
     private AuditLogEntitiyType entityType;
 
+    @Column(name = "entity_name", nullable = false, length = 100)
+    private String entityName;
+
     @Column(name = "entity_id", nullable = false, length = 36)
     private String entityId;
 
@@ -50,27 +53,31 @@ public class AuditLog {
     @Column(columnDefinition = "TEXT")
     private String newValue;
 
+
     public AuditLog() {}
 
-    public AuditLog(
-            AuditLogEntitiyType entityType,
-            String entityId,
-            AuditLogAction action,
-            String actor,
-            String details,
-            String resource,
-            String ipAddress,
-            Object oldValue,
-            Object newValue
-    ) {
+    public AuditLog(String entityName, String entityId, AuditLogAction action, String actor, String details) {
+        this.entityName = entityName;
+        this.entityId = entityId;
+        this.action = action;
+        this.actor = actor;
+        this.details = details;
+    }
+
+
+    public AuditLog(String id, AuditLogEntitiyType entityType, String entityName, String entityId, AuditLogAction action, String actor, String details, String resource, String ipAddress, Instant createdAt, String oldValue, String newValue) {
+        this.id = id;
         this.entityType = entityType;
+        this.entityName = entityName;
         this.entityId = entityId;
         this.action = action;
         this.actor = actor;
         this.details = details;
         this.resource = resource;
         this.ipAddress = ipAddress;
-        this.createdAt = Instant.now();
+        this.createdAt = createdAt;
+        this.oldValue = oldValue;
+        this.newValue = newValue;
     }
 
     public String getId() {

@@ -8,7 +8,10 @@ CREATE TABLE TENANTS(
     tenant_name varchar(50) UNIQUE,
     status varchar(10),
     created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
-    update_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+    update_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+    deleted_at TIMESTAMP WITH TIME ZONE DEFAULT NULL,
+    deleted_by UUID DEFAULT NULL
+    de
 );
 
 CREATE TABLE USERS (
@@ -33,7 +36,7 @@ CREATE TABLE ADMIN_TENANT(
     user_name varchar(20),
     email varchar(20) UNIQUE,
     password varchar(40), 
-    status varchar(20) NOT NULL DEFAULT 'ACTIVE', /* les differents status (active, suspended, disabled, archived/deleted) */
+    status varchar(20) NOT NULL DEFAULT 'ACTIVE',
     tenant_id UUID not null ,
     created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
     update_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
@@ -47,7 +50,7 @@ CREATE TABLE SUPER_ADMIN(
     user_name varchar(20),
     email varchar(20) UNIQUE,
     password varchar(40), 
-    status varchar(20) NOT NULL DEFAULT 'ACTIVE', /* les differents status (active, suspended, disabled, archived/deleted) */
+    status varchar(20) NOT NULL DEFAULT 'ACTIVE',
     tenant_id UUID not null ,
     created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
     update_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),

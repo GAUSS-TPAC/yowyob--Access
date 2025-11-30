@@ -7,7 +7,7 @@ import org.hibernate.annotations.GenericGenerator;
 import java.time.Instant;
 
 @Entity
-@Table(name = "TENANT")
+@Table(name = "TENANTS")
 public class Tenant {
     @Id
     @GeneratedValue(generator = "UUID")

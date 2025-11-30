@@ -2,6 +2,8 @@ package com.yowyob_access.access.service;
 
 import com.yowyob_access.access.entities.AuditLog;
 import com.yowyob_access.access.entities.Tenant;
+import com.yowyob_access.access.enums.AuditLogAction;
+import com.yowyob_access.access.enums.AuditLogEntitiyType;
 import com.yowyob_access.access.enums.TenantStatus;
 import com.yowyob_access.access.repository.AuditLogRepository;
 import com.yowyob_access.access.repository.TenantRepository;
@@ -10,6 +12,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
 import java.util.List;
+
+import static com.yowyob_access.access.enums.AuditLogAction.*;
 
 @Service
 public class TenantService {
@@ -46,9 +50,18 @@ public class TenantService {
         if (tenant_updates.getTenantName() != null) existing.setTenantName(tenant_updates.getTenantName());
         if (tenant_updates.getStatus() != null) existing.setStatus(tenant_updates.getStatus());
         Tenant tenant_saved = tenantRepository.save(existing);
-        auditLogRepository.save(new AuditLog("Tenant", id, "UPDATE", "system", "updated fields"));
+        auditLogRepository.save(new AuditLog(tenant_updates.getTenantName(), id, UPDATE, "system", "updated fields"));
         return tenant_saved;
     }
+//    AuditLogEntitiyType entityType,
+//    String entityId,
+//    AuditLogAction action,
+//    String actor,
+//    String details,
+//    String resource,
+//    String ipAddress,
+//    Object oldValue,
+//    Object newValue
 
     @Transactional
     public void delete(String id) {
@@ -61,7 +74,7 @@ public class TenantService {
         tenant.setStatus(TenantStatus.DELETED);
         tenantRepository.save(tenant);
 
-        auditLogRepository.save(new AuditLog("Tenant", id, "DELETE_SOFT", "system", "soft-deleted tenant"));
+        auditLogRepository.save(new AuditLog("Tenant", id, DELETE, "system", "soft-deleted tenant"));
     }
 
     @Transactional
@@ -69,7 +82,7 @@ public class TenantService {
         Tenant tenant = getById(id);
         tenant.setStatus(status);
         Tenant saved = tenantRepository.save(tenant);
-        auditLogRepository.save(new AuditLog("Tenant", id, "STATUS_CHANGE", "system", "status -> " + status));
+        auditLogRepository.save(new AuditLog("Tenant", id, STATUS_CHANGE, "system", "status -> " + status));
         return saved;
     }
 }
