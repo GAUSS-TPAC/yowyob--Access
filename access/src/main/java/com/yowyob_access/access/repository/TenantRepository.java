@@ -24,4 +24,6 @@ public interface TenantRepository extends JpaRepository<Tenant, String> {
     Optional<Tenant> findByIdAndDeletedFalse(String id);
     Optional<Tenant> findByTenantNameAndDeletedFalse(String tenantName);
     boolean existsByTenantNameAndDeletedFalse(String tenantName);
+
+    boolean existsByTenantName(String tenantName);
 }
