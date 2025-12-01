@@ -64,6 +64,19 @@ public class AuditLog {
         this.details = details;
     }
 
+    public AuditLog(AuditLogEntitiyType entityType, String entityName, String entityId, AuditLogAction action, String actor, String details, String resource, String ipAddress, String oldValue, String newValue) {
+        this.entityType = entityType;
+        this.entityName = entityName;
+        this.entityId = entityId;
+        this.action = action;
+        this.actor = actor;
+        this.details = details;
+        this.resource = resource;
+        this.ipAddress = ipAddress;
+        this.oldValue = oldValue;
+        this.newValue = newValue;
+    }
+
 
     public AuditLog(String id, AuditLogEntitiyType entityType, String entityName, String entityId, AuditLogAction action, String actor, String details, String resource, String ipAddress, Instant createdAt, String oldValue, String newValue) {
         this.id = id;
@@ -78,6 +91,11 @@ public class AuditLog {
         this.createdAt = createdAt;
         this.oldValue = oldValue;
         this.newValue = newValue;
+    }
+
+    @PrePersist
+    private void prePersist() {
+        this.createdAt = Instant.now();
     }
 
     public String getId() {

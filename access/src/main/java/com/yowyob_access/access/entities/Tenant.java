@@ -40,15 +40,15 @@ public class Tenant {
 
     public Tenant() {}
 
-    public Tenant(String tenantName, TenantStatus status) {
+    public Tenant(String tenantName) {
         this.tenantName = tenantName;
-        this.status = status;
+        status = TenantStatus.ACTIVE;
+        createdAt = Instant.now();
     }
 
     @PrePersist
     protected void onCreate() {
         this.createdAt = Instant.now();
-        this.updatedAt = this.createdAt;
     }
 
     @PreUpdate
@@ -56,12 +56,67 @@ public class Tenant {
         this.updatedAt = Instant.now();
     }
 
-    // getters & setters
-    public String getId() { return id; }
-    public String getTenantName() { return tenantName; }
-    public void setTenantName(String tenantName) { this.tenantName = tenantName; }
-    public Instant getCreatedAt() { return createdAt; }
-    public Instant getUpdatedAt() { return updatedAt; }
-    public TenantStatus getStatus() { return status; }
-    public void setStatus(TenantStatus status) { this.status = status; }
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getTenantName() {
+        return tenantName;
+    }
+
+    public void setTenantName(String tenantName) {
+        this.tenantName = tenantName;
+    }
+
+    public Instant getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(Instant createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public Instant getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(Instant updatedAt) {
+        this.updatedAt = updatedAt;
+    }
+
+    public TenantStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(TenantStatus status) {
+        this.status = status;
+    }
+
+    public boolean isDeleted() {
+        return deleted;
+    }
+
+    public void setDeleted(boolean deleted) {
+        this.deleted = deleted;
+    }
+
+    public Instant getDeletedAt() {
+        return deletedAt;
+    }
+
+    public void setDeletedAt(Instant deletedAt) {
+        this.deletedAt = deletedAt;
+    }
+
+    public String getDeletedBy() {
+        return deletedBy;
+    }
+
+    public void setDeletedBy(String deletedBy) {
+        this.deletedBy = deletedBy;
+    }
 }
