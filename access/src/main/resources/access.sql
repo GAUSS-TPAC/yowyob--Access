@@ -58,14 +58,25 @@ CREATE TABLE SUPER_ADMIN(
 );
 
 
-CREATE TABLE PERMISSIONS(
-    ID UUID PRIMARY KEY not null DEFAULT gen_random_uuid(),
-    permission_name varchar(50) UNIQUE,
-    action varchar(50),
-    resource varchar(50),
-    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
-    update_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+CREATE TABLE permissions (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    tenant_id UUID NOT NULL,
+    permission_name VARCHAR(100) NOT NULL,
+    action VARCHAR(50) NOT NULL,
+    resource VARCHAR(50) NOT NULL,
+    created_at TIMESTAMPTZ DEFAULT NOW(),
+    updated_at TIMESTAMPTZ DEFAULT NOW(),
+
+    CONSTRAINT uq_permission UNIQUE (tenant_id, permission_name),
+
+    CONSTRAINT fk_permission_tenant
+        FOREIGN KEY (tenant_id)
+        REFERENCES tenants(id)
+        ON DELETE CASCADE
 );
+
+CREATE INDEX idx_permission_tenant ON permissions(tenant_id);
+
 
 CREATE TABLE ROLES (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
