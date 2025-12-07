@@ -1,0 +1,1 @@
+but du projet dans l'ensemble: on veux pouvoir donné des information a un utilisateur selon son role et les permissions donné, et c'est l'admin du tenant qui creer et definit les permission pour chaque role qu'il cree.
