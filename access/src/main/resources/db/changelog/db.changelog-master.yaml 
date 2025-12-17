@@ -1,0 +1,7 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1
+      author: Gauss
+      changes:
+        - tagDatabase:
+            tag: version-1.0

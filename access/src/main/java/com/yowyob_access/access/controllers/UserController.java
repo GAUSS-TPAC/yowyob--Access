@@ -1,4 +1,4 @@
-package com.yowyob_access.access.controller;
+package com.yowyob_access.access.controllers;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;

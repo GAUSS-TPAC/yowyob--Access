@@ -1,4 +1,4 @@
-package com.yowyob_access.access.repository;
+package com.yowyob_access.access.repositories;
 
 import com.yowyob_access.access.entities.Tenant;
 import com.yowyob_access.access.enums.TenantStatus;
@@ -14,7 +14,7 @@ public interface TenantRepository extends JpaRepository<Tenant, String> {
     List<Tenant> findAllByDeletedFalseAndCreatedAtBetween(Instant startDate, Instant endDate);
 
     Optional<Tenant> findByTenantName(String tenantName);
-    boolean existByTenantName(String tenantName);
+    boolean existsByTenantName(String tenantName);
 
     Optional<Tenant> findById(String id);
     List<Tenant> findAll();
@@ -25,5 +25,4 @@ public interface TenantRepository extends JpaRepository<Tenant, String> {
     Optional<Tenant> findByTenantNameAndDeletedFalse(String tenantName);
     boolean existsByTenantNameAndDeletedFalse(String tenantName);
 
-    boolean existsByTenantName(String tenantName);
 }

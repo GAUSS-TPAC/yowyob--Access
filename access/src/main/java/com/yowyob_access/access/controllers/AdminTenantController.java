@@ -1,4 +1,4 @@
-package com.yowyob_access.access.controller;
+package com.yowyob_access.access.controllers;
 
 public class AdminTenantController {
 }

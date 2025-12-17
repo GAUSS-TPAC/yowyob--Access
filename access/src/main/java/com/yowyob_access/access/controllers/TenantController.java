@@ -1,13 +1,11 @@
-package com.yowyob_access.access.controller;
+package com.yowyob_access.access.controllers;
 
-import com.yowyob_access.access.entities.AdminTenant;
 import com.yowyob_access.access.entities.Tenant;
 import com.yowyob_access.access.enums.TenantStatus;
-import com.yowyob_access.access.service.TenantService;
+import com.yowyob_access.access.services.TenantService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.security.core.context.SecurityContextHolder;
 
-import org.springframework.boot.autoconfigure.kafka.KafkaProperties;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

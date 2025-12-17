@@ -1,0 +1,27 @@
+{
+  "app": {
+    "[project]/Bureau/4GI projet/yowyob-access/yowyob--Access/front-end yow-access/next-js-front-end/app/login/page": [
+      "static/media/caa3a2e1cccd8315-s.p.853070df.woff2",
+      "static/media/797e433ab948586e-s.p.dbea232f.woff2"
+    ],
+    "[project]/Bureau/4GI projet/yowyob-access/yowyob--Access/front-end yow-access/next-js-front-end/app/page": [
+      "static/media/caa3a2e1cccd8315-s.p.853070df.woff2",
+      "static/media/797e433ab948586e-s.p.dbea232f.woff2"
+    ],
+    "[project]/Bureau/4GI projet/yowyob-access/yowyob--Access/front-end yow-access/next-js-front-end/app/super-admin/dashboard/page": [
+      "static/media/caa3a2e1cccd8315-s.p.853070df.woff2",
+      "static/media/797e433ab948586e-s.p.dbea232f.woff2"
+    ],
+    "[project]/Bureau/4GI projet/yowyob-access/yowyob--Access/front-end yow-access/next-js-front-end/app/super-admin/tenants/create/page": [
+      "static/media/caa3a2e1cccd8315-s.p.853070df.woff2",
+      "static/media/797e433ab948586e-s.p.dbea232f.woff2"
+    ],
+    "[project]/Bureau/4GI projet/yowyob-access/yowyob--Access/front-end yow-access/next-js-front-end/app/super-admin/tenants/page": [
+      "static/media/caa3a2e1cccd8315-s.p.853070df.woff2",
+      "static/media/797e433ab948586e-s.p.dbea232f.woff2"
+    ]
+  },
+  "appUsingSizeAdjust": true,
+  "pages": {},
+  "pagesUsingSizeAdjust": false
+}

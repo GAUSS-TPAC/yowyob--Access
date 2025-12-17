@@ -1,7 +1,7 @@
-package com.yowyob_access.access.service;
+package com.yowyob_access.access.services;
 
 import com.yowyob_access.access.entities.AuditLog;
-import com.yowyob_access.access.repository.AuditLogRepository;
+import com.yowyob_access.access.repositories.AuditLogRepository;
 
 import java.util.List;
 

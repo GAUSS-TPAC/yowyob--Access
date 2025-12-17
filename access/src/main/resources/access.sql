@@ -79,18 +79,31 @@ CREATE INDEX idx_permission_tenant ON permissions(tenant_id);
 
 
 CREATE TABLE ROLES (
-  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-  role_name VARCHAR(100) UNIQUE NOT NULL,
-  description TEXT,
-  created_at TIMESTAMP DEFAULT NOW(),
-  updated_at TIMESTAMP DEFAULT NOW()
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    tenant_id UUID NOT NULL,
+    role_name VARCHAR(100) NOT NULL,
+    description TEXT,
+    created_at TIMESTAMPTZ DEFAULT NOW(),
+    updated_at TIMESTAMPTZ DEFAULT NOW(),
+
+    CONSTRAINT uq_role UNIQUE (tenant_id, role_name),
+    CONSTRAINT fk_role_tenant
+        FOREIGN KEY (tenant_id)
+        REFERENCES tenants(id)
+        ON DELETE CASCADE
 );
 
-CREATE TABLE ROLES_PERMISSIONS (
-  role_id UUID NOT NULL REFERENCES roles(id) ON DELETE CASCADE,
-  permission_id UUID NOT NULL REFERENCES permissions(id) ON DELETE CASCADE,
-  PRIMARY KEY (role_id, permission_id)
+
+CREATE TABLE ROLE_PERMISSONS (
+    role_id UUID NOT NULL,
+    permission_id UUID NOT NULL,
+
+    PRIMARY KEY (role_id, permission_id),
+
+    FOREIGN KEY (role_id) REFERENCES roles(id) ON DELETE CASCADE,
+    FOREIGN KEY (permission_id) REFERENCES permissions(id) ON DELETE CASCADE
 );
+
 
 CREATE TABLE AUDIT_LOGS(
     ID UUID primary key not null DEFAULT gen_random_uuid(),

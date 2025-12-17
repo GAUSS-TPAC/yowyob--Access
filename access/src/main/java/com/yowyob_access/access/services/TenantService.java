@@ -1,12 +1,12 @@
-package com.yowyob_access.access.service;
+package com.yowyob_access.access.services;
 
 import com.yowyob_access.access.entities.AuditLog;
 import com.yowyob_access.access.entities.Tenant;
 import com.yowyob_access.access.enums.AuditLogAction;
 import com.yowyob_access.access.enums.AuditLogEntitiyType;
 import com.yowyob_access.access.enums.TenantStatus;
-import com.yowyob_access.access.repository.AuditLogRepository;
-import com.yowyob_access.access.repository.TenantRepository;
+import com.yowyob_access.access.repositories.AuditLogRepository;
+import com.yowyob_access.access.repositories.TenantRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

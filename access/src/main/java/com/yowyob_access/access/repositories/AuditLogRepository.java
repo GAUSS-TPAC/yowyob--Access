@@ -1,4 +1,4 @@
-package com.yowyob_access.access.repository;
+package com.yowyob_access.access.repositories;
 
 import com.yowyob_access.access.entities.AuditLog;
 import com.yowyob_access.access.enums.AuditLogAction;
