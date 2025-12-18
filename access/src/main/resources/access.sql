@@ -8,7 +8,10 @@ CREATE TABLE TENANTS(
     tenant_name varchar(50) UNIQUE,
     status varchar(10),
     created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
-    update_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+    update_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+    deleted_at TIMESTAMP WITH TIME ZONE DEFAULT NULL,
+    deleted_by UUID DEFAULT NULL
+
 );
 
 CREATE TABLE USERS (
@@ -18,8 +21,8 @@ CREATE TABLE USERS (
   password VARCHAR(255) NOT NULL, -- stocker hash (bcrypt/argon2)
   status VARCHAR(20) NOT NULL DEFAULT 'ACTIVE',
   tenant_id UUID NOT NULL,
-  created_at TIMESTAMPTZ DEFAULT NOW(),
-  updated_at TIMESTAMPTZ DEFAULT NOW()
+  created_at TIMESTAMP DEFAULT NOW(),
+  updated_at TIMESTAMP DEFAULT NOW()
 );
 
 -- index sur tenant_id pour recherches filtrées
@@ -33,7 +36,7 @@ CREATE TABLE ADMIN_TENANT(
     user_name varchar(20),
     email varchar(20) UNIQUE,
     password varchar(40), 
-    status varchar(20) NOT NULL DEFAULT 'ACTIVE', /* les differents status (active, suspended, disabled, archived/deleted) */
+    status varchar(20) NOT NULL DEFAULT 'ACTIVE',
     tenant_id UUID not null ,
     created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
     update_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
@@ -47,7 +50,7 @@ CREATE TABLE SUPER_ADMIN(
     user_name varchar(20),
     email varchar(20) UNIQUE,
     password varchar(40), 
-    status varchar(20) NOT NULL DEFAULT 'ACTIVE', /* les differents status (active, suspended, disabled, archived/deleted) */
+    status varchar(20) NOT NULL DEFAULT 'ACTIVE',
     tenant_id UUID not null ,
     created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
     update_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
@@ -55,14 +58,25 @@ CREATE TABLE SUPER_ADMIN(
 );
 
 
-CREATE TABLE PERMISSIONS(
-    ID UUID PRIMARY KEY not null DEFAULT gen_random_uuid(),
-    permission_name varchar(50) UNIQUE,
-    action varchar(50),
-    resource varchar(50),
-    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
-    update_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+CREATE TABLE permissions (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    tenant_id UUID NOT NULL,
+    permission_name VARCHAR(100) NOT NULL,
+    action VARCHAR(50) NOT NULL,
+    resource VARCHAR(50) NOT NULL,
+    created_at TIMESTAMPTZ DEFAULT NOW(),
+    updated_at TIMESTAMPTZ DEFAULT NOW(),
+
+    CONSTRAINT uq_permission UNIQUE (tenant_id, permission_name),
+
+    CONSTRAINT fk_permission_tenant
+        FOREIGN KEY (tenant_id)
+        REFERENCES tenants(id)
+        ON DELETE CASCADE
 );
+
+CREATE INDEX idx_permission_tenant ON permissions(tenant_id);
+
 
 CREATE TABLE ROLES (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
